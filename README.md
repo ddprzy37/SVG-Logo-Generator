@@ -14,8 +14,6 @@ Below is an example SVG showing a pink circle and blue text centered within the 
 </svg>
 ```
 
-
-
 ## How It Works
 
 For a quick demo of the SVG Logo Generator in action, watch the screencast below:
