@@ -7,11 +7,13 @@ SVG Logo Generator is a simple Node.js command-line application that allows user
 
 Below is an example SVG showing a pink circle and blue text centered within the rectangle:
 
-
+```
 <svg width="300" height="200">
       <circle cx="150" cy="100" r="50" fill="pink" />
       <text x="150" y="100" fill="blue" text-anchor="middle" dominant-baseline="middle">svg</text>
 </svg>
+```
+
 
 
 ## How It Works
