@@ -1,44 +1,27 @@
-const readlineSync = require('readline-sync');
-const { SVG, registerWindow } = require('@svgdotjs/svg.js');
-const { createSVGWindow } = require('svgdom');
 const fs = require('fs');
+const { runPrompts } = require('./lib/cli');
+const { Triangle, Circle, Square } = require('./lib/shape');
 
-// Set up SVG.js for node.js environment
-const window = createSVGWindow();
-const document = window.document;
-registerWindow(window, document);
+async function main() {
+    const answers = await runPrompts();
+    let shape;
 
-// Prompt for user input
-const text = readlineSync.question('Enter up to three characters: ', {
-  limit: input => input.length <= 3,
-  limitMessage: 'Sorry, only up to three characters are allowed.'
-});
-const textColor = readlineSync.question('Enter text color (keyword or hex): ');
-const shapes = ['circle', 'triangle', 'square'];
-const shapeChoice = readlineSync.keyInSelect(shapes, 'Choose a shape:');
-const shapeColor = readlineSync.question('Enter shape color (keyword or hex): ');
+    switch (answers.shapeType) {
+        case 'circle':
+            shape = new Circle(answers.shapeColor);
+            break;
+        case 'triangle':
+            shape = new Triangle(answers.shapeColor);
+            break;
+        case 'square':
+            shape = new Square(answers.shapeColor);
+            break;
+    }
 
-// Create the SVG
-const canvas = SVG(document.documentElement).size(300, 200);
+    const svgContent = `<svg width="300" height="200">${shape.render()}<text x="150" y="100" fill="${answers.textColor}">${answers.text}</text></svg>`;
 
-// Define shape based on user selection
-let shape;
-switch (shapes[shapeChoice]) {
-  case 'circle':
-    shape = canvas.circle(100).move(100, 50);
-    break;
-  case 'triangle':
-    shape = canvas.polygon('50,15 100,100 0,100').move(100, 50);
-    break;
-  case 'square':
-    shape = canvas.rect(100, 100).move(100, 50);
-    break;
+    fs.writeFileSync('logo.svg', svgContent);
+    console.log('Generated logo.svg');
 }
-shape.fill(shapeColor);
 
-// Add text
-const textElement = canvas.text(text).move(150, 100).fill(textColor);
-
-// Save the SVG to a file
-fs.writeFileSync('logo.svg', canvas.svg());
-console.log('Generated logo.svg');
+main();
