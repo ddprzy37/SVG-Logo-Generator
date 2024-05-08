@@ -24,7 +24,7 @@ async function main() {
 
   console.log(`Rendered Shape: ${shape.render()}`);  // Debug the rendered shape
 
-  const svgContent = `<svg width="300" height="200">${shape.render()}<text x="150" y="100" fill="${answers.textColor}">${answers.text}</text></svg>`;
+  const svgContent = `<svg width="300" height="200">${shape.render()}<text x="150" y="150" fill="${answers.textColor}">${answers.text}</text></svg>`;
   fs.writeFileSync('logo.svg', svgContent);
   console.log('Generated logo.svg');
 }
